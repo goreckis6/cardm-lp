@@ -201,7 +201,7 @@ export default function Home() {
                 <span className="hero-promo-pulse hero-promo-pulse-delay" aria-hidden="true" />
                 <div className="hero-promo-frame">
                   <Image
-                    src="/brand/hero-promo.jpg"
+                    src="/brand/hero-promo-v1.jpg"
                     alt="Cardiom camera PPG check-in and home dashboard on iPhone"
                     width={900}
                     height={1600}

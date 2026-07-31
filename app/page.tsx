@@ -143,7 +143,7 @@ export default function Home() {
                 <span className="hero-promo-pulse hero-promo-pulse-delay" aria-hidden="true" />
                 <div className="hero-promo-frame">
                   <Image
-                    src="/brand/generated/hero-promo-v3-rppg-v2.jpg"
+                    src="/brand/hero-promo-v6.jpg"
                     alt="Cardiom Finger PPG and contactless Face rPPG check-ins with the iPhone dashboard"
                     width={900}
                     height={1600}

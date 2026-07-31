@@ -467,6 +467,7 @@ img {
   box-shadow:
     0 42px 100px rgba(18, 59, 91, 0.28),
     0 5px 18px rgba(18, 59, 91, 0.14);
+  transform: rotate(1.5deg);
 }
 
 .hero-promo-frame img {

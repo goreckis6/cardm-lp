@@ -184,15 +184,13 @@ export default function Home() {
                 </Link>
               </div>
               <div className="trust-row">
-                <span>● Private by design</span>
-                <span>● No wearable required</span>
-                <span>● Built for iPhone</span>
+                <span>Private by design</span>
+                <span>No wearable required</span>
+                <span>Built for iPhone</span>
               </div>
             </div>
 
             <div className="hero-product" aria-label="Cardiom app preview">
-              <div className="hero-orbit orbit-one" />
-              <div className="hero-orbit orbit-two" />
               <div className="hero-promo-live">
                 <span className="hero-promo-pulse" aria-hidden="true" />
                 <span className="hero-promo-pulse hero-promo-pulse-delay" aria-hidden="true" />
@@ -203,21 +201,20 @@ export default function Home() {
                     width={900}
                     height={1600}
                     priority
-                    sizes="(max-width: 760px) 78vw, (max-width: 1100px) 42vw, 420px"
+                    sizes="(max-width: 760px) 78vw, (max-width: 1100px) 42vw, 400px"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div className="shell hero-proof">
-            <span>One calm place for</span>
-            <strong>Heart rate</strong>
-            <i />
-            <strong>HRV context</strong>
-            <i />
-            <strong>Manual logs</strong>
-            <i />
-            <strong>Weekly patterns</strong>
+          <div className="shell hero-proof" aria-label="Product focus areas">
+            <span className="hero-proof-label">One calm place for</span>
+            <ul className="hero-proof-list">
+              <li>Heart rate</li>
+              <li>HRV context</li>
+              <li>Manual logs</li>
+              <li>Weekly patterns</li>
+            </ul>
           </div>
         </section>
 
@@ -264,19 +261,6 @@ export default function Home() {
               </p>
             </div>
             <div className="process-layout">
-              <div className="process-visual process-visual-phone">
-                <Image
-                  src="/brand/app-dashboard.jpg"
-                  alt="Cardiom home dashboard with Health Check, pulse trend and Measure now"
-                  width={860}
-                  height={1740}
-                />
-                <div className="process-live">
-                  <span className="live-pulse" />
-                  <small>CHECK-IN READY</small>
-                  <strong>Place your fingertip</strong>
-                </div>
-              </div>
               <ol className="process-list">
                 {steps.map((step) => (
                   <li key={step.n}>
@@ -288,6 +272,14 @@ export default function Home() {
                   </li>
                 ))}
               </ol>
+              <div className="process-visual process-visual-phone">
+                <Image
+                  src="/brand/app-dashboard-hero.jpg"
+                  alt="Cardiom home dashboard with Health Check, pulse trend and Measure now"
+                  width={860}
+                  height={1600}
+                />
+              </div>
             </div>
           </div>
         </section>

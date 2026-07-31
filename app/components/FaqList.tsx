@@ -16,7 +16,12 @@ const questions = [
   {
     question: "What is the difference between Finger PPG and Face rPPG?",
     answer:
-      "Finger PPG uses light passing through a fingertip, while Face rPPG observes tiny colour changes in the face. Cardiom labels the method clearly and lets you compare their trends separately.",
+      "Finger PPG is a contact check-in: you place a fingertip over the rear camera and flash so Cardiom can read light changes from blood flow. Face rPPG is contactless — the front camera scans your face and detects tiny colour changes linked to your pulse. Cardiom labels each method and lets you compare Finger and Face trends separately.",
+  },
+  {
+    question: "Can I measure pulse by scanning my face?",
+    answer:
+      "Yes. Choose Face rPPG for a contactless reading. Keep your face in the guide, use even light from in front of you, and stay still. Soft daylight or a lamp in front of your face usually works better than strong light from behind.",
   },
   {
     question: "When do HRV and the 7-day Stress Index appear?",

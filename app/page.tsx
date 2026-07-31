@@ -8,8 +8,8 @@ const features = [
   {
     index: "01",
     kicker: "CAMERA CHECK-INS",
-    title: "A calm check-in, right from your iPhone.",
-    copy: "Choose fingertip PPG with the rear camera and flash, or a contactless Face rPPG check-in. Cardiom guides the session and only keeps results that pass its quality checks.",
+    title: "Measure pulse two ways — fingertip or face.",
+    copy: "Finger PPG uses the rear camera and flash on your fingertip. Face rPPG is contactless: the front camera reads tiny colour changes in your face. Cardiom guides each session and keeps only results that pass its quality checks.",
     className: "feature-card feature-card-wide feature-card-blue",
     visual: (
       <div className="signal-window" aria-hidden="true">
@@ -110,18 +110,23 @@ const features = [
 const steps = [
   {
     n: "01",
-    title: "Choose your check-in",
-    copy: "Use a fingertip or your face. Cardiom prepares the camera and guides your position.",
+    title: "Pick Finger PPG or Face rPPG",
+    copy: "Finger PPG: rest a fingertip gently over the rear camera and flash. Face rPPG: hold the phone so your face is in frame — no contact needed — and Cardiom reads subtle skin-colour changes from the pulse.",
   },
   {
     n: "02",
-    title: "Stay still for the signal",
-    copy: "The progress begins only when the signal is usable and never runs longer than 30 seconds.",
+    title: "Follow the on-screen guide",
+    copy: "Cardiom prepares the right camera, shows placement cues and waits for a clean signal. Progress starts only when the reading looks usable.",
   },
   {
     n: "03",
-    title: "See the pattern grow",
-    copy: "Save the result, add context and return over time to reveal your personal range.",
+    title: "Stay still for up to 30 seconds",
+    copy: "Keep still in steady light. Sessions never run longer than 30 seconds. Soft light in front of you helps Face rPPG; a relaxed fingertip helps Finger PPG.",
+  },
+  {
+    n: "04",
+    title: "Save the result and watch your pattern",
+    copy: "Cardiom labels which method you used, so Finger and Face trends stay comparable. Add context, build your baseline and return over days and weeks.",
   },
 ];
 
@@ -169,9 +174,9 @@ export default function Home() {
                 <span>Cardiom helps you see it.</span>
               </h1>
               <p className="hero-lead">
-                Camera-based heart-rate check-ins, thoughtful wellness context
-                and your daily health journal — designed to feel calm, private
-                and beautifully clear.
+                Measure your pulse with Finger PPG (rear camera + flash) or
+                contactless Face rPPG (front-camera face scan) — then keep the
+                context in a private daily journal, without a wearable.
               </p>
               <div className="hero-actions">
                 <Link className="button button-primary" href="#download">
@@ -253,11 +258,12 @@ export default function Home() {
             <div className="section-heading section-heading-light">
               <div>
                 <span className="section-index">02 / HOW IT WORKS</span>
-                <h2>Thirty seconds. Then the bigger picture.</h2>
+                <h2>Two camera methods. One clear routine.</h2>
               </div>
               <p>
-                The interface does the explaining as you go. No setup maze, no
-                dashboard overload.
+                Cardiom estimates pulse from your iPhone cameras: Finger PPG
+                through the fingertip, or Face rPPG by scanning your face.
+                Guided, short, and only saved when the signal quality is good.
               </p>
             </div>
             <div className="process-layout">
@@ -344,7 +350,7 @@ export default function Home() {
                   <span className="side-card-icon">↔</span>
                   <small>COMPARE METHODS</small>
                   <strong>Finger + Face</strong>
-                  <p>Filter every chart by how the check-in was captured.</p>
+                  <p>Separate Finger PPG and Face rPPG trends so methods stay comparable.</p>
                 </div>
                 <div className="insight-side-card insight-side-dark">
                   <span className="side-card-icon">↗</span>
@@ -422,7 +428,7 @@ export default function Home() {
                   <span>to begin</span>
                 </div>
                 <ul>
-                  <li>Camera heart-rate check-ins</li>
+                  <li>Finger PPG & Face rPPG pulse check-ins</li>
                   <li>Manual health journal</li>
                   <li>Personal baseline progress</li>
                   <li>Secure account sync</li>

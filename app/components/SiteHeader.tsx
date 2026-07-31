@@ -14,18 +14,51 @@ const nav = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [onDark, setOnDark] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", open);
     return () => document.body.classList.remove("menu-open");
   }, [open]);
 
+  useEffect(() => {
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-surface="dark"]'),
+    );
+    if (!sections.length) return;
+
+    let frame = 0;
+    const sample = () => {
+      frame = 0;
+      const line = 52;
+      setOnDark(
+        sections.some((section) => {
+          const box = section.getBoundingClientRect();
+          return box.top <= line && box.bottom >= line;
+        }),
+      );
+    };
+
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(sample);
+    };
+
+    sample();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={onDark ? "site-header site-header-dark" : "site-header"}>
       <div className="shell header-inner">
         <Link className="wordmark" href="/" aria-label="Cardiom home">
           <Image
-            src="/brand/app-icon.png"
+            src="/brand/app-icon-128.png"
             alt=""
             width={48}
             height={48}

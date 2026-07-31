@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { EarlyAccessForm } from "./components/EarlyAccessForm";
 import { FaqList } from "./components/FaqList";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
@@ -45,7 +46,20 @@ const features = [
     kicker: "SMART REMINDERS",
     title: "Build a routine you can maintain.",
     copy: "Set custom reminders for check-ins or manual logs so consistent tracking fits naturally into your day.",
-    tags: ["Custom schedule", "Check-in routine", "On your terms"],
+    tags: ["Custom schedule", "On your terms"],
+  },
+];
+
+const methods = [
+  {
+    slot: "face",
+    name: "Face rPPG",
+    note: "contactless face scan",
+  },
+  {
+    slot: "finger",
+    name: "Finger PPG",
+    note: "fingertip on rear camera",
   },
 ];
 
@@ -143,13 +157,27 @@ export default function Home() {
                 <span className="hero-promo-pulse hero-promo-pulse-delay" aria-hidden="true" />
                 <div className="hero-promo-frame">
                   <Image
-                    src="/brand/hero-promo-v6.jpg"
+                    src="/brand/hero-promo-v7.jpg"
                     alt="Cardiom Finger PPG and contactless Face rPPG check-ins with the iPhone dashboard"
-                    width={900}
-                    height={1600}
+                    width={1024}
+                    height={1176}
                     priority
                     sizes="(max-width: 760px) 78vw, (max-width: 1100px) 42vw, 400px"
                   />
+                  <ul className="hero-methods">
+                    {methods.map((method) => (
+                      <li
+                        className={`hero-method hero-method-${method.slot}`}
+                        key={method.name}
+                      >
+                        <span className="hero-method-dot" aria-hidden="true" />
+                        <span className="hero-method-text">
+                          <strong>{method.name}</strong>
+                          <small>{method.note}</small>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
@@ -202,7 +230,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section process-section" id="how-it-works">
+        <section
+          className="section process-section"
+          id="how-it-works"
+          data-surface="dark"
+        >
           <div className="shell">
             <div className="section-heading section-heading-light">
               <div>
@@ -239,7 +271,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section privacy-section">
+        <section className="section privacy-section" data-surface="dark">
           <div className="shell privacy-layout">
             <div className="privacy-copy">
               <span className="section-index">03 / PRIVACY</span>
@@ -256,7 +288,24 @@ export default function Home() {
             </div>
             <div className="privacy-stack">
               <div className="privacy-card privacy-card-main">
-                <div className="privacy-lock">●</div>
+                <div className="privacy-lock" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.8">
+                    <rect
+                      x="4"
+                      y="10.5"
+                      width="16"
+                      height="10.5"
+                      rx="3"
+                      stroke="currentColor"
+                    />
+                    <path
+                      d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="15.6" r="1.5" fill="currentColor" />
+                  </svg>
+                </div>
                 <div>
                   <small>PRIVATE SYNC</small>
                   <strong>Available across your devices.</strong>
@@ -386,7 +435,7 @@ export default function Home() {
         </section>
 
         <section className="download-section" id="download">
-          <div className="shell download-card">
+          <div className="shell download-card" data-surface="dark">
             <div className="download-glow" />
             <div className="download-copy">
               <span className="section-index">CARDIOM FOR IPHONE</span>
@@ -395,26 +444,17 @@ export default function Home() {
                 Be first to know when Cardiom opens on the App Store. Early
                 access starts with iPhone.
               </p>
-              <a
-                className="store-badge"
-                href="mailto:hello@cardiom.app?subject=Cardiom%20early%20access"
-              >
-                <span className="store-mark">●</span>
-                <span>
-                  <small>JOIN THE</small>
-                  <strong>Early access list</strong>
-                </span>
-              </a>
+              <EarlyAccessForm />
               <small className="download-note">
                 Wellness information only. Cardiom is not a medical device.
               </small>
             </div>
             <div className="download-icon">
               <Image
-                src="/brand/app-icon.png"
+                src="/brand/app-icon-512.png"
                 alt="Cardiom app icon"
-                width={1024}
-                height={1024}
+                width={512}
+                height={512}
               />
             </div>
           </div>

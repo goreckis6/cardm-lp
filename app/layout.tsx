@@ -25,8 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       "Measure pulse with Finger PPG or contactless Face rPPG on iPhone — plus personal wellness context and a private daily health journal.",
     icons: {
-      icon: "/brand/app-icon.png",
-      apple: "/brand/app-icon.png",
+      icon: "/brand/app-icon-256.png",
+      apple: "/brand/app-icon-256.png",
     },
     openGraph: {
       title: "Cardiom — Your heart has a pattern",

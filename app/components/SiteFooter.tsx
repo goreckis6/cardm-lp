@@ -3,13 +3,13 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" data-surface="dark">
       <div className="shell">
         <div className="footer-main">
           <div className="footer-brand">
             <Link className="wordmark wordmark-footer" href="/">
               <Image
-                src="/brand/app-icon.png"
+                src="/brand/app-icon-128.png"
                 alt=""
                 width={52}
                 height={52}

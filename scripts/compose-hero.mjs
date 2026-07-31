@@ -68,19 +68,19 @@ const cutMeta = await sharp(cutout).metadata();
 const fullW = cutMeta.width;
 const fullH = cutMeta.height;
 
-// Show only right ~38% (camera + finger), rest off-canvas
-const visibleW = Math.round(fullW * 0.38);
+// Show ~70% of phone width — tucked under main phone, not tiny crop
+const visibleW = Math.round(fullW * 0.7);
 const leftPeek = await softLeftMask(
   await sharp(cutout)
     .extract({
       left: fullW - visibleW,
-      top: Math.round(fullH * 0.05),
+      top: Math.round(fullH * 0.04),
       width: visibleW,
-      height: Math.round(fullH * 0.9),
+      height: Math.round(fullH * 0.88),
     })
     .png()
     .toBuffer(),
-  55,
+  28,
 );
 
 // --- Front phone: accurate tall frame + real dashboard ---
@@ -162,16 +162,16 @@ const bgSvg = `
   <circle cx="800" cy="1300" r="2.2" fill="#fff" opacity="0.3"/>
   <circle cx="870" cy="1355" r="2.5" fill="#fff" opacity="0.34"/>
   <circle cx="770" cy="1385" r="1.7" fill="#fff" opacity="0.24"/>
-  <text x="52" y="118" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" fill="#ffffff">See your</text>
-  <text x="52" y="174" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="800" fill="#ee5a65">Heart Pattern</text>
-  <path d="M0 ${H - 150} C 200 ${H - 200}, 480 ${H - 120}, 900 ${H - 170} L 900 ${H} L 0 ${H} Z" fill="#ee5a65"/>
-  <text x="450" y="${H - 68}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#ffffff">Camera PPG · No wearable needed</text>
+  <text x="52" y="128" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700" fill="#ffffff">See your</text>
+  <text x="52" y="196" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="800" fill="#ff6b74">Heart Pattern</text>
+  <path d="M0 ${H - 168} C 200 ${H - 220}, 480 ${H - 130}, 900 ${H - 185} L 900 ${H} L 0 ${H} Z" fill="#ee5a65"/>
+  <text x="450" y="${H - 70}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="800" fill="#ffffff">Camera PPG · No wearable needed</text>
 </svg>`;
 
-const frontLeft = Math.round((W - frameW) / 2) + 10;
-const frontTop = 220;
-const peekLeft = -18;
-const peekTop = 380;
+const frontLeft = Math.round((W - frameW) / 2) + 36;
+const frontTop = 230;
+const peekLeft = 8;
+const peekTop = 340;
 
 await sharp(Buffer.from(bgSvg))
   .composite([

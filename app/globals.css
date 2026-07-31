@@ -360,7 +360,7 @@ img {
 .hero-promo-stage {
   position: relative;
   z-index: 3;
-  width: min(430px, 42vw);
+  width: min(460px, 44vw);
   overflow: hidden;
   border-radius: 36px;
   background:
@@ -375,34 +375,37 @@ img {
 
 .hero-promo-kicker {
   position: relative;
-  z-index: 2;
-  padding: 28px 26px 8px;
+  z-index: 4;
+  padding: 32px 28px 10px;
   color: #fff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
 }
 
 .hero-promo-kicker span {
   display: block;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 .hero-promo-kicker strong {
   display: block;
-  margin-top: 2px;
-  color: #ee5a65;
-  font-size: 28px;
+  margin-top: 4px;
+  color: #ff6b74;
+  font-size: 36px;
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
 }
 
 .hero-promo-peek {
   position: absolute;
-  left: -8%;
-  top: 34%;
+  left: -2%;
+  top: 26%;
   z-index: 1;
-  width: 46%;
-  opacity: 0.92;
+  width: 58%;
+  opacity: 1;
   pointer-events: none;
   filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
 }
@@ -415,15 +418,15 @@ img {
 
 .phone-stage-hero {
   position: relative;
-  z-index: 2;
-  width: min(280px, 68%);
+  z-index: 3;
+  width: min(300px, 72%);
   height: auto;
-  margin: 8px auto 0;
+  margin: 4px auto 0;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 36px;
   background: #111;
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
   transform: none;
 }
 
@@ -440,14 +443,16 @@ img {
 
 .hero-promo-foot {
   position: relative;
-  z-index: 2;
-  margin-top: 22px;
-  padding: 22px 18px 26px;
+  z-index: 4;
+  margin-top: 20px;
+  padding: 26px 20px 30px;
   color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
   text-align: center;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   background: #ee5a65;
   clip-path: ellipse(120% 100% at 50% 100%);
 }
@@ -2499,9 +2504,28 @@ img {
     height: auto;
   }
 
+  .hero-promo-kicker span {
+    font-size: 24px;
+  }
+
+  .hero-promo-kicker strong {
+    font-size: 30px;
+  }
+
+  .hero-promo-foot {
+    font-size: 15px;
+    padding: 24px 16px 28px;
+  }
+
+  .hero-promo-peek {
+    width: 54%;
+    left: -1%;
+    top: 28%;
+  }
+
   .hero-promo-frame,
   .hero-promo-stage {
-    width: min(330px, 78vw);
+    width: min(360px, 82vw);
     transform: none;
   }
 

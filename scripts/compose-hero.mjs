@@ -8,19 +8,32 @@ const backSrc = "public/brand/_iphone-back.png";
 const dashSrc = "public/brand/app-dashboard.jpg";
 const outJpg = "public/brand/hero-promo.jpg";
 
-// Mirror the rear phone + hand
-const mirroredBack = await sharp(backSrc)
-  .resize(520, null, { fit: "inside" })
+// Mirror the rear phone + hand, then crop so only part peeks from the left
+const mirroredFull = await sharp(backSrc)
+  .resize(560, null, { fit: "inside" })
   .flop()
   .png()
   .toBuffer();
 
-const mirroredMeta = await sharp(mirroredBack).metadata();
-const backW = mirroredMeta.width ?? 480;
-const backH = mirroredMeta.height ?? 640;
+const mirroredMeta = await sharp(mirroredFull).metadata();
+const fullBackW = mirroredMeta.width ?? 520;
+const fullBackH = mirroredMeta.height ?? 780;
 
-// Front phone: dashboard inside rounded device frame
-const screenW = 340;
+// Keep ~42% of phone width visible (mostly off-canvas on the left)
+const visibleBackW = Math.round(fullBackW * 0.42);
+const cropLeft = fullBackW - visibleBackW;
+const mirroredBack = await sharp(mirroredFull)
+  .extract({
+    left: cropLeft,
+    top: 0,
+    width: visibleBackW,
+    height: fullBackH,
+  })
+  .png()
+  .toBuffer();
+
+// Front phone: dashboard inside rounded device frame — a bit larger, more centered
+const screenW = 360;
 const screenH = Math.round(screenW * (1740 / 860));
 const bezel = 14;
 const phoneW = screenW + bezel * 2;
@@ -90,16 +103,25 @@ const overlaySvg = `
   <circle cx="720" cy="280" r="2.5" fill="#fff" opacity="0.25"/>
   <circle cx="640" cy="980" r="2" fill="#fff" opacity="0.3"/>
   <circle cx="220" cy="1100" r="2.2" fill="#fff" opacity="0.22"/>
+  <!-- bottom side glazki -->
+  <circle cx="72" cy="1280" r="3.2" fill="#fff" opacity="0.42"/>
+  <circle cx="118" cy="1348" r="2.4" fill="#fff" opacity="0.32"/>
+  <circle cx="54" cy="1395" r="2" fill="#fff" opacity="0.28"/>
+  <circle cx="828" cy="1265" r="3" fill="#fff" opacity="0.4"/>
+  <circle cx="792" cy="1335" r="2.2" fill="#fff" opacity="0.3"/>
+  <circle cx="858" cy="1388" r="2.6" fill="#fff" opacity="0.34"/>
+  <circle cx="760" cy="1410" r="1.8" fill="#fff" opacity="0.24"/>
   <text x="56" y="120" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="700" fill="#ffffff">See your</text>
   <text x="56" y="178" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="800" fill="#ee5a65">Heart Pattern</text>
   <path d="M0 ${H - 168} C 180 ${H - 210}, 420 ${H - 130}, 900 ${H - 180} L 900 ${H} L 0 ${H} Z" fill="#ee5a65"/>
   <text x="450" y="${H - 72}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#ffffff">Camera PPG · No wearable needed</text>
 </svg>`;
 
-const backLeft = 18;
-const backTop = 260;
-const frontLeft = W - phoneW - 36;
-const frontTop = 210;
+// Peek from left edge (partially off-canvas); front phone near center
+const backLeft = -28;
+const backTop = 320;
+const frontLeft = Math.round((W - phoneW) / 2) + 12;
+const frontTop = 195;
 
 await sharp(Buffer.from(overlaySvg))
   .composite([
@@ -109,4 +131,12 @@ await sharp(Buffer.from(overlaySvg))
   .jpeg({ quality: 88, mozjpeg: true })
   .toFile(outJpg);
 
-console.log("wrote", outJpg, fs.statSync(outJpg).size, "back", backW, backH);
+console.log(
+  "wrote",
+  outJpg,
+  fs.statSync(outJpg).size,
+  "visibleBack",
+  visibleBackW,
+  "frontLeft",
+  frontLeft,
+);

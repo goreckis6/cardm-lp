@@ -193,30 +193,14 @@ export default function Home() {
             <div className="hero-product" aria-label="Cardiom app preview">
               <div className="hero-orbit orbit-one" />
               <div className="hero-orbit orbit-two" />
-              <div className="floating-card floating-card-top">
-                <span className="floating-icon">⌁</span>
-                <span>
-                  <small>SIGNAL QUALITY</small>
-                  <strong>Excellent · 94%</strong>
-                </span>
-              </div>
-              <div className="phone-stage">
+              <div className="hero-promo-frame">
                 <Image
-                  src="/brand/app-home.png"
-                  alt="Cardiom heart-rate screen on an iPhone"
-                  width={862}
-                  height={1824}
+                  src="/brand/hero-promo.jpg"
+                  alt="Cardiom home screen with camera PPG heart-rate check-in on iPhone"
+                  width={900}
+                  height={1600}
                   priority
                 />
-              </div>
-              <div className="floating-card floating-card-bottom">
-                <div className="tiny-ring">
-                  <span>12</span>
-                </div>
-                <span>
-                  <small>PERSONAL BASELINE</small>
-                  <strong>Ready to explore</strong>
-                </span>
               </div>
             </div>
           </div>
@@ -275,12 +259,12 @@ export default function Home() {
               </p>
             </div>
             <div className="process-layout">
-              <div className="process-visual">
+              <div className="process-visual process-visual-phone">
                 <Image
-                  src="/brand/pulse-grid.png"
-                  alt=""
-                  width={1254}
-                  height={1254}
+                  src="/brand/app-dashboard.jpg"
+                  alt="Cardiom home dashboard with Health Check, pulse trend and Measure now"
+                  width={860}
+                  height={1740}
                 />
                 <div className="process-live">
                   <span className="live-pulse" />

@@ -357,6 +357,25 @@ img {
   min-height: 690px;
 }
 
+.hero-promo-frame {
+  position: relative;
+  z-index: 3;
+  width: min(420px, 40vw);
+  overflow: hidden;
+  border-radius: 36px;
+  background: #152943;
+  box-shadow:
+    0 42px 100px rgba(18, 59, 91, 0.28),
+    0 5px 18px rgba(18, 59, 91, 0.14);
+  transform: rotate(1.5deg);
+}
+
+.hero-promo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .phone-stage {
   position: relative;
   z-index: 3;
@@ -950,6 +969,28 @@ img {
   object-fit: cover;
   filter: invert(1) hue-rotate(180deg);
   opacity: 0.44;
+}
+
+.process-visual-phone {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 640px;
+  padding: 28px 28px 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(55, 143, 202, 0.28), transparent 42%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.process-visual-phone img {
+  width: min(320px, 100%);
+  height: auto;
+  object-fit: contain;
+  object-position: top center;
+  filter: none;
+  opacity: 1;
+  border-radius: 36px 36px 0 0;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
 .process-live {
@@ -2241,6 +2282,11 @@ img {
     width: 340px;
   }
 
+  .hero-promo-frame {
+    width: 340px;
+    transform: none;
+  }
+
   .section-heading {
     grid-template-columns: 1fr;
     gap: 22px;
@@ -2350,6 +2396,11 @@ img {
     width: 330px;
     height: 540px;
     border-radius: 55px;
+  }
+
+  .hero-promo-frame {
+    width: min(330px, 78vw);
+    transform: none;
   }
 
   .orbit-one {
@@ -2563,6 +2614,10 @@ img {
   .phone-stage {
     width: 294px;
     height: 500px;
+  }
+
+  .hero-promo-frame {
+    width: min(294px, 82vw);
   }
 
   .feature-card h3 {

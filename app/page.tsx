@@ -193,32 +193,18 @@ export default function Home() {
             <div className="hero-product" aria-label="Cardiom app preview">
               <div className="hero-orbit orbit-one" />
               <div className="hero-orbit orbit-two" />
-              <div className="hero-promo-stage">
-                <div className="hero-promo-kicker">
-                  <span>See your</span>
-                  <strong>Heart Pattern</strong>
-                </div>
-                <div className="hero-promo-body">
-                  <div className="hero-promo-peek" aria-hidden="true">
-                    <Image
-                      src="/brand/ppg-peek.png"
-                      alt=""
-                      width={560}
-                      height={900}
-                    />
-                  </div>
-                  <div className="phone-stage-hero">
-                    <Image
-                      src="/brand/app-dashboard-hero.jpg"
-                      alt="Cardiom home dashboard with Health Check and Measure now"
-                      width={860}
-                      height={1600}
-                      priority
-                    />
-                  </div>
-                </div>
-                <div className="hero-promo-foot">
-                  Camera PPG · No wearable needed
+              <div className="hero-promo-live">
+                <span className="hero-promo-pulse" aria-hidden="true" />
+                <span className="hero-promo-pulse hero-promo-pulse-delay" aria-hidden="true" />
+                <div className="hero-promo-frame">
+                  <Image
+                    src="/brand/hero-promo.jpg"
+                    alt="Cardiom camera PPG check-in and home dashboard on iPhone"
+                    width={900}
+                    height={1600}
+                    priority
+                    sizes="(max-width: 760px) 78vw, (max-width: 1100px) 42vw, 420px"
+                  />
                 </div>
               </div>
             </div>

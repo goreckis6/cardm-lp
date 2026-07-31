@@ -198,22 +198,24 @@ export default function Home() {
                   <span>See your</span>
                   <strong>Heart Pattern</strong>
                 </div>
-                <div className="hero-promo-peek" aria-hidden="true">
-                  <Image
-                    src="/brand/ppg-peek.png"
-                    alt=""
-                    width={420}
-                    height={720}
-                  />
-                </div>
-                <div className="phone-stage phone-stage-hero">
-                  <Image
-                    src="/brand/app-dashboard-hero.jpg"
-                    alt="Cardiom home dashboard with Health Check and Measure now"
-                    width={860}
-                    height={1600}
-                    priority
-                  />
+                <div className="hero-promo-body">
+                  <div className="hero-promo-peek" aria-hidden="true">
+                    <Image
+                      src="/brand/ppg-peek.png"
+                      alt=""
+                      width={560}
+                      height={900}
+                    />
+                  </div>
+                  <div className="phone-stage-hero">
+                    <Image
+                      src="/brand/app-dashboard-hero.jpg"
+                      alt="Cardiom home dashboard with Health Check and Measure now"
+                      width={860}
+                      height={1600}
+                      priority
+                    />
+                  </div>
                 </div>
                 <div className="hero-promo-foot">
                   Camera PPG · No wearable needed

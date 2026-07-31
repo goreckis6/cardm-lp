@@ -7,103 +7,45 @@ import { SiteHeader } from "./components/SiteHeader";
 const features = [
   {
     index: "01",
-    kicker: "CAMERA CHECK-INS",
-    title: "Measure pulse two ways — fingertip or face.",
-    copy: "Finger PPG uses the rear camera and flash on your fingertip. Face rPPG is contactless: the front camera reads tiny colour changes in your face. Cardiom guides each session and keeps only results that pass its quality checks.",
-    className: "feature-card feature-card-wide feature-card-blue",
-    visual: (
-      <div className="signal-window" aria-hidden="true">
-        <div className="signal-window-top">
-          <span>LIVE SIGNAL</span>
-          <span className="signal-live-dot" />
-        </div>
-        <div className="signal-number">
-          78 <small>BPM</small>
-        </div>
-        <div className="mini-wave">
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-        </div>
-        <div className="signal-progress">
-          <span />
-        </div>
-      </div>
-    ),
+    kicker: "CAMERA HEART RATE",
+    title: "Measure your heart rate without a wearable.",
+    copy: "Use Finger PPG with the rear camera and flash, or choose a contactless Face rPPG check-in with the front camera.",
+    tags: ["Finger PPG", "Face rPPG", "Instant result"],
   },
   {
     index: "02",
-    kicker: "PERSONAL BASELINE",
-    title: "Your range, not a generic average.",
-    copy: "Build a personal reference from consistent check-ins, then follow change across 7 days to 1 year.",
-    className: "feature-card feature-card-light",
-    visual: (
-      <div className="baseline-visual" aria-hidden="true">
-        <div className="baseline-orbit">
-          <span>12</span>
-          <small>CHECK-INS</small>
-        </div>
-        <div>
-          <strong>Baseline ready</strong>
-          <p>Personal range unlocked</p>
-        </div>
-      </div>
-    ),
+    kicker: "HEALTH JOURNAL",
+    title: "Keep your vital readings together.",
+    copy: "Manually log readings from trusted devices and follow them alongside your pulse history in one private journal.",
+    tags: ["Blood pressure", "Blood oxygen", "Glucose"],
   },
   {
     index: "03",
-    kicker: "SIGNAL CONTEXT",
-    title: "HRV and longer-term patterns, made readable.",
-    copy: "See available SDNN, RMSSD, pNN50, heart age and the 7-day Stress Index with clear explanations beside every metric.",
-    className: "feature-card feature-card-dark",
-    visual: (
-      <div className="metric-cloud" aria-hidden="true">
-        <span>
-          <small>HRV</small>
-          42 ms
-        </span>
-        <span>
-          <small>RMSSD</small>
-          38 ms
-        </span>
-        <span>
-          <small>pNN50</small>
-          18%
-        </span>
-      </div>
-    ),
+    kicker: "STRESS & HEART AGE",
+    title: "See more context behind the numbers.",
+    copy: "Explore longer-term stress patterns, available HRV metrics, energy context and your estimated heart age.",
+    tags: ["Stress Index", "Heart age", "HRV & energy"],
   },
   {
     index: "04",
-    kicker: "DAILY JOURNAL",
-    title: "The readings you already take, finally together.",
-    copy: "Log blood pressure, blood oxygen and glucose manually. Add context, find a date, and keep the story of your routine in one place.",
-    className: "feature-card feature-card-wide feature-card-coral",
-    visual: (
-      <div className="journal-visual" aria-hidden="true">
-        <div>
-          <small>BLOOD PRESSURE</small>
-          <strong>
-            120/80 <em>mmHg</em>
-          </strong>
-        </div>
-        <div className="journal-line" />
-        <div className="journal-stats">
-          <span>
-            <small>OXYGEN</small>98%
-          </span>
-          <span>
-            <small>GLUCOSE</small>92
-          </span>
-          <span className="status-normal">IN RANGE</span>
-        </div>
-      </div>
-    ),
+    kicker: "TAGS & CONTEXT",
+    title: "Connect each reading with your day.",
+    copy: "Add tags to measurements and manual entries, then filter your history to spot patterns around daily habits.",
+    tags: ["Sleep", "Stress", "Activity"],
+  },
+  {
+    index: "05",
+    kicker: "TRENDS & REPORTS",
+    title: "Turn your history into a useful summary.",
+    copy: "Review changes over time and create a PDF report from a selected date range to take to a medical appointment.",
+    tags: ["7 days–1 year", "PDF export", "Shareable"],
+  },
+  {
+    index: "06",
+    kicker: "SMART REMINDERS",
+    title: "Build a routine you can maintain.",
+    copy: "Set custom reminders for check-ins or manual logs so consistent tracking fits naturally into your day.",
+    tags: ["Custom schedule", "Check-in routine", "On your terms"],
   },
 ];
 
@@ -143,7 +85,7 @@ const articles = [
     title: "Reading HRV without overthinking it",
     copy: "SDNN, RMSSD and pNN50 explained in language that belongs in real life.",
     href: "/blog/reading-hrv-without-overthinking-it",
-    tone: "article-red",
+    tone: "article-teal",
   },
   {
     tag: "BETTER CHECK-INS",
@@ -201,8 +143,8 @@ export default function Home() {
                 <span className="hero-promo-pulse hero-promo-pulse-delay" aria-hidden="true" />
                 <div className="hero-promo-frame">
                   <Image
-                    src="/brand/hero-promo-v1.jpg"
-                    alt="Cardiom camera PPG check-in and home dashboard on iPhone"
+                    src="/brand/generated/hero-promo-v3-rppg-v2.jpg"
+                    alt="Cardiom Finger PPG and contactless Face rPPG check-ins with the iPhone dashboard"
                     width={900}
                     height={1600}
                     priority
@@ -227,17 +169,20 @@ export default function Home() {
           <div className="shell">
             <div className="section-heading">
               <div>
-                <span className="section-index">01 / FEATURES</span>
-                <h2>Health context that feels human.</h2>
+                <span className="section-index">WHAT YOU CAN DO WITH CARDIOM</span>
+                <h2>More than a pulse check.</h2>
               </div>
               <p>
-                Cardiom turns a growing set of personal signals into a clear
-                daily experience — without turning every number into an alarm.
+                Measure heart rate, organize manual vital readings, understand
+                longer-term patterns and build a consistent routine.
               </p>
             </div>
             <div className="feature-grid">
               {features.map((feature) => (
-                <article className={feature.className} key={feature.index}>
+                <article
+                  className="feature-card feature-card-compact"
+                  key={feature.index}
+                >
                   <div className="feature-copy">
                     <div className="feature-kicker">
                       <span>{feature.index}</span>
@@ -246,7 +191,11 @@ export default function Home() {
                     <h3>{feature.title}</h3>
                     <p>{feature.copy}</p>
                   </div>
-                  {feature.visual}
+                  <div className="feature-tags" aria-hidden="true">
+                    {feature.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
                 </article>
               ))}
             </div>
@@ -290,83 +239,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section insight-section">
-          <div className="shell">
-            <div className="section-heading">
-              <div>
-                <span className="section-index">03 / YOUR PATTERNS</span>
-                <h2>Not more data. Better orientation.</h2>
-              </div>
-              <p>
-                Cardiom makes room for today’s result and the gradual patterns
-                that only become visible with consistency.
-              </p>
-            </div>
-            <div className="insight-showcase">
-              <div className="insight-main-card">
-                <div className="insight-card-header">
-                  <div>
-                    <small>7-DAY STRESS INDEX</small>
-                    <h3>Your longer-term pattern</h3>
-                  </div>
-                  <span className="info-chip">i</span>
-                </div>
-                <div className="insight-value-row">
-                  <div>
-                    <strong>34</strong>
-                    <span>/100</span>
-                    <p>Lower recent load</p>
-                  </div>
-                  <div className="line-chart" aria-hidden="true">
-                    <div className="chart-grid-lines" />
-                    <div className="chart-path">
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                      <i />
-                    </div>
-                  </div>
-                </div>
-                <div className="insight-metrics">
-                  <span>
-                    <small>HRV</small>
-                    <strong>42 ms</strong>
-                  </span>
-                  <span>
-                    <small>ENERGY</small>
-                    <strong>78</strong>
-                  </span>
-                  <span>
-                    <small>HEART AGE</small>
-                    <strong>31 yrs</strong>
-                  </span>
-                </div>
-              </div>
-              <div className="insight-side">
-                <div className="insight-side-card">
-                  <span className="side-card-icon">↔</span>
-                  <small>COMPARE METHODS</small>
-                  <strong>Finger + Face</strong>
-                  <p>Separate Finger PPG and Face rPPG trends so methods stay comparable.</p>
-                </div>
-                <div className="insight-side-card insight-side-dark">
-                  <span className="side-card-icon">↗</span>
-                  <small>SHARE A REPORT</small>
-                  <strong>Your story, ready to take with you.</strong>
-                  <p>Create a clear PDF from a selected date range.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="section privacy-section">
           <div className="shell privacy-layout">
             <div className="privacy-copy">
-              <span className="section-index">04 / PRIVACY</span>
+              <span className="section-index">03 / PRIVACY</span>
               <h2>Your health story should belong to you.</h2>
               <p>
                 Cardiom is designed around clear consent, secure sign-in and
@@ -408,7 +284,7 @@ export default function Home() {
           <div className="shell">
             <div className="section-heading">
               <div>
-                <span className="section-index">05 / PRICING</span>
+                <span className="section-index">04 / PRICING</span>
                 <h2>Start simply. Grow into your patterns.</h2>
               </div>
               <p>
@@ -465,7 +341,7 @@ export default function Home() {
         <section className="section faq-section" id="faq">
           <div className="shell faq-layout">
             <div className="faq-intro">
-              <span className="section-index">06 / FAQ</span>
+              <span className="section-index">05 / FAQ</span>
               <h2>The important questions, answered clearly.</h2>
               <p>
                 Still curious? The Cardiom support area will grow alongside the
@@ -483,7 +359,7 @@ export default function Home() {
           <div className="shell">
             <div className="section-heading">
               <div>
-                <span className="section-index">07 / FROM THE JOURNAL</span>
+                <span className="section-index">06 / FROM THE JOURNAL</span>
                 <h2>Small ideas for a steadier routine.</h2>
               </div>
               <Link className="text-link" href="/blog">

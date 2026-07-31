@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
@@ -16,6 +17,8 @@ const stories = [
     copy: "A single reading is a moment. A consistent routine is where useful context begins.",
     href: "/blog/why-baselines-beat-snapshots",
     tone: "article-blue",
+    image: "/blog/blog-baseline.jpg",
+    imageAlt: "Abstract personal baseline chart with a calm blue range band",
   },
   {
     tag: "HRV, SIMPLIFIED",
@@ -23,6 +26,8 @@ const stories = [
     copy: "SDNN, RMSSD and pNN50 explained in language that belongs in real life.",
     href: "/blog/reading-hrv-without-overthinking-it",
     tone: "article-red",
+    image: "/blog/blog-hrv.jpg",
+    imageAlt: "Soft coral HRV cards and variability waveform illustration",
   },
   {
     tag: "BETTER CHECK-INS",
@@ -30,6 +35,8 @@ const stories = [
     copy: "Light, position and timing: three small choices that make a cleaner routine.",
     href: "/blog/making-camera-check-ins-repeatable",
     tone: "article-ink",
+    image: "/blog/blog-camera.jpg",
+    imageAlt: "Phone camera check-in with fingertip measurement rings",
   },
   {
     tag: "ROUTINES",
@@ -37,6 +44,8 @@ const stories = [
     copy: "Consistency removes noise and makes your personal context easier to read.",
     href: "/blog/why-baselines-beat-snapshots",
     tone: "article-ink",
+    image: "/blog/blog-routines.jpg",
+    imageAlt: "Daily rhythm arc with evenly spaced check-in points",
   },
   {
     tag: "PRIVACY",
@@ -44,6 +53,8 @@ const stories = [
     copy: "Clear consent, visible sync states and controls that do not require a manual.",
     href: "/privacy",
     tone: "article-blue",
+    image: "/blog/blog-privacy.jpg",
+    imageAlt: "Soft privacy shield with a calm heart-pulse motif",
   },
   {
     tag: "CONTEXT",
@@ -51,6 +62,8 @@ const stories = [
     copy: "Why Cardiom pairs signals with context instead of medical conclusions.",
     href: "/blog/reading-hrv-without-overthinking-it",
     tone: "article-red",
+    image: "/blog/blog-context.jpg",
+    imageAlt: "Abstract illustration of context surrounding a soft number shape",
   },
 ];
 
@@ -80,6 +93,15 @@ export default function BlogPage() {
               href={story.href}
               key={`${story.title}-${index}`}
             >
+              <div className="article-card-media">
+                <Image
+                  src={story.image}
+                  alt={story.imageAlt}
+                  width={960}
+                  height={720}
+                  sizes="(max-width: 900px) 100vw, 360px"
+                />
+              </div>
               <span className="article-tag">{story.tag}</span>
               <div>
                 <h3>{story.title}</h3>

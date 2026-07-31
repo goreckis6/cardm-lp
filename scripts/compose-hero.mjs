@@ -8,24 +8,22 @@ const backSrc = "public/brand/_iphone-back.png";
 const dashSrc = "public/brand/app-dashboard.jpg";
 const outJpg = "public/brand/hero-promo.jpg";
 
-function isBg(r, g, b) {
-  // Key out dark navy studio backdrop
-  const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  if (luma > 55) return false;
-  return b >= r - 8 && b >= g - 4 && b < 70;
-}
-
-async function removeNavyBackground(input) {
-  const { data, info } = await sharp(input)
+/** Soft-edge alpha: fade left side of a cutout so it peeks without a hard box */
+async function softLeftMask(pngBuffer, fadePx = 70) {
+  const meta = await sharp(pngBuffer).metadata();
+  const w = meta.width;
+  const h = meta.height;
+  const { data, info } = await sharp(pngBuffer)
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
 
-  for (let i = 0; i < data.length; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    if (isBg(r, g, b)) data[i + 3] = 0;
+  for (let y = 0; y < info.height; y++) {
+    for (let x = 0; x < info.width; x++) {
+      const i = (y * info.width + x) * 4;
+      const edgeFade = x < fadePx ? x / fadePx : 1;
+      data[i + 3] = Math.round(data[i + 3] * edgeFade);
+    }
   }
 
   return sharp(data, {
@@ -35,137 +33,155 @@ async function removeNavyBackground(input) {
     .toBuffer();
 }
 
-// Mirror the rear phone + hand, then crop so only part peeks from the left
+function isBg(r, g, b) {
+  const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  if (luma > 48) return false;
+  return b >= r - 10 && b >= g - 6 && b < 72;
+}
+
+async function removeNavyBackground(input) {
+  const { data, info } = await sharp(input)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (isBg(data[i], data[i + 1], data[i + 2])) data[i + 3] = 0;
+  }
+
+  return sharp(data, {
+    raw: { width: info.width, height: info.height, channels: 4 },
+  })
+    .png()
+    .toBuffer();
+}
+
+// --- Left peek: mirrored rear phone, heavily cropped, soft edge ---
 const mirroredFull = await sharp(backSrc)
-  .resize(560, null, { fit: "inside" })
+  .resize(640, null, { fit: "inside" })
   .flop()
   .png()
   .toBuffer();
 
-const cutoutFull = await removeNavyBackground(mirroredFull);
-const mirroredMeta = await sharp(cutoutFull).metadata();
-const fullBackW = mirroredMeta.width ?? 520;
-const fullBackH = mirroredMeta.height ?? 780;
+const cutout = await removeNavyBackground(mirroredFull);
+const cutMeta = await sharp(cutout).metadata();
+const fullW = cutMeta.width;
+const fullH = cutMeta.height;
 
-// Keep ~45% of phone width visible (mostly off-canvas on the left)
-const visibleBackW = Math.round(fullBackW * 0.45);
-const cropLeft = fullBackW - visibleBackW;
-const mirroredBack = await sharp(cutoutFull)
-  .extract({
-    left: cropLeft,
-    top: 0,
-    width: visibleBackW,
-    height: fullBackH,
-  })
+// Show only right ~38% (camera + finger), rest off-canvas
+const visibleW = Math.round(fullW * 0.38);
+const leftPeek = await softLeftMask(
+  await sharp(cutout)
+    .extract({
+      left: fullW - visibleW,
+      top: Math.round(fullH * 0.05),
+      width: visibleW,
+      height: Math.round(fullH * 0.9),
+    })
+    .png()
+    .toBuffer(),
+  55,
+);
+
+// --- Front phone: accurate tall frame + real dashboard ---
+const frameW = 392;
+const frameH = 800;
+const inset = 12;
+const screenW = frameW - inset * 2;
+const screenH = frameH - inset * 2 - 10;
+const radius = 54;
+const screenRadius = 42;
+
+const screenBuf = await sharp(dashSrc)
+  .resize(screenW, screenH, { fit: "cover", position: "top" })
   .png()
   .toBuffer();
 
-// Front phone: dashboard inside rounded device frame — near center
-const screenW = 360;
-const screenH = Math.round(screenW * (1740 / 860));
-const bezel = 14;
-const phoneW = screenW + bezel * 2;
-const phoneH = screenH + bezel * 2 + 18;
-const radius = 48;
-
-const screen = await sharp(dashSrc)
-  .resize(screenW, screenH, { fit: "cover" })
-  .jpeg({ quality: 90 })
-  .toBuffer();
-
-const frontPhoneSvg = `
-<svg width="${phoneW}" height="${phoneH}" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2a2a2c"/>
-      <stop offset="100%" stop-color="#111113"/>
-    </linearGradient>
-  </defs>
-  <rect x="0" y="0" width="${phoneW}" height="${phoneH}" rx="${radius}" ry="${radius}" fill="url(#g)"/>
-  <rect x="${bezel}" y="${bezel + 8}" width="${screenW}" height="${screenH}" rx="36" ry="36" fill="#000"/>
-</svg>`;
-
-const frontPhone = await sharp(Buffer.from(frontPhoneSvg))
+const roundedScreen = await sharp(screenBuf)
   .composite([
     {
-      input: await sharp(screen)
-        .resize(screenW, screenH)
-        .composite([
-          {
-            input: Buffer.from(
-              `<svg width="${screenW}" height="${screenH}"><rect width="100%" height="100%" rx="34" ry="34" fill="white"/></svg>`,
-            ),
-            blend: "dest-in",
-          },
-        ])
-        .png()
-        .toBuffer(),
-      left: bezel,
-      top: bezel + 8,
+      input: Buffer.from(
+        `<svg width="${screenW}" height="${screenH}"><rect width="100%" height="100%" rx="${screenRadius}" ry="${screenRadius}" fill="#fff"/></svg>`,
+      ),
+      blend: "dest-in",
     },
   ])
   .png()
   .toBuffer();
 
-const overlaySvg = `
+const frameSvg = `
+<svg width="${frameW}" height="${frameH}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bezel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3a3a3c"/>
+      <stop offset="45%" stop-color="#1c1c1e"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <filter id="sh" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="28" stdDeviation="28" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="${frameW}" height="${frameH}" rx="${radius}" ry="${radius}" fill="url(#bezel)" filter="url(#sh)"/>
+  <rect x="3" y="3" width="${frameW - 6}" height="${frameH - 6}" rx="${radius - 3}" ry="${radius - 3}" fill="#111"/>
+</svg>`;
+
+const frontPhone = await sharp(Buffer.from(frameSvg))
+  .composite([{ input: roundedScreen, left: inset, top: inset + 6 }])
+  .png()
+  .toBuffer();
+
+// --- Background + type + glazki ---
+const bgSvg = `
 <svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0.3" y2="1">
-      <stop offset="0%" stop-color="#0a1628"/>
-      <stop offset="55%" stop-color="#122844"/>
-      <stop offset="100%" stop-color="#0d2135"/>
+    <linearGradient id="bg" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#081425"/>
+      <stop offset="50%" stop-color="#12304a"/>
+      <stop offset="100%" stop-color="#0c1f33"/>
     </linearGradient>
-    <radialGradient id="glow1" cx="70%" cy="35%" r="45%">
-      <stop offset="0%" stop-color="#378fca" stop-opacity="0.28"/>
+    <radialGradient id="g1" cx="62%" cy="32%" r="42%">
+      <stop offset="0%" stop-color="#378fca" stop-opacity="0.22"/>
       <stop offset="100%" stop-color="#378fca" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glow2" cx="20%" cy="70%" r="40%">
-      <stop offset="0%" stop-color="#ee5a65" stop-opacity="0.18"/>
+    <radialGradient id="g2" cx="18%" cy="62%" r="36%">
+      <stop offset="0%" stop-color="#ee5a65" stop-opacity="0.14"/>
       <stop offset="100%" stop-color="#ee5a65" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="100%" height="100%" fill="url(#bg)"/>
-  <rect width="100%" height="100%" fill="url(#glow1)"/>
-  <rect width="100%" height="100%" fill="url(#glow2)"/>
-  <circle cx="160" cy="420" r="3" fill="#fff" opacity="0.35"/>
-  <circle cx="720" cy="280" r="2.5" fill="#fff" opacity="0.25"/>
-  <circle cx="640" cy="980" r="2" fill="#fff" opacity="0.3"/>
-  <circle cx="220" cy="1100" r="2.2" fill="#fff" opacity="0.22"/>
+  <rect width="100%" height="100%" fill="url(#g1)"/>
+  <rect width="100%" height="100%" fill="url(#g2)"/>
+  <circle cx="150" cy="390" r="2.5" fill="#fff" opacity="0.28"/>
+  <circle cx="740" cy="300" r="2" fill="#fff" opacity="0.22"/>
   <!-- bottom side glazki -->
-  <circle cx="72" cy="1280" r="3.2" fill="#fff" opacity="0.42"/>
-  <circle cx="118" cy="1348" r="2.4" fill="#fff" opacity="0.32"/>
-  <circle cx="54" cy="1395" r="2" fill="#fff" opacity="0.28"/>
-  <circle cx="148" cy="1310" r="1.6" fill="#fff" opacity="0.22"/>
-  <circle cx="828" cy="1265" r="3" fill="#fff" opacity="0.4"/>
-  <circle cx="792" cy="1335" r="2.2" fill="#fff" opacity="0.3"/>
-  <circle cx="858" cy="1388" r="2.6" fill="#fff" opacity="0.34"/>
-  <circle cx="760" cy="1410" r="1.8" fill="#fff" opacity="0.24"/>
-  <circle cx="880" cy="1318" r="1.7" fill="#fff" opacity="0.26"/>
-  <text x="56" y="120" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="700" fill="#ffffff">See your</text>
-  <text x="56" y="178" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="800" fill="#ee5a65">Heart Pattern</text>
-  <path d="M0 ${H - 168} C 180 ${H - 210}, 420 ${H - 130}, 900 ${H - 180} L 900 ${H} L 0 ${H} Z" fill="#ee5a65"/>
-  <text x="450" y="${H - 72}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#ffffff">Camera PPG · No wearable needed</text>
+  <circle cx="68" cy="1240" r="3.4" fill="#fff" opacity="0.45"/>
+  <circle cx="110" cy="1310" r="2.3" fill="#fff" opacity="0.32"/>
+  <circle cx="48" cy="1360" r="2" fill="#fff" opacity="0.28"/>
+  <circle cx="140" cy="1280" r="1.6" fill="#fff" opacity="0.22"/>
+  <circle cx="840" cy="1230" r="3.2" fill="#fff" opacity="0.42"/>
+  <circle cx="800" cy="1300" r="2.2" fill="#fff" opacity="0.3"/>
+  <circle cx="870" cy="1355" r="2.5" fill="#fff" opacity="0.34"/>
+  <circle cx="770" cy="1385" r="1.7" fill="#fff" opacity="0.24"/>
+  <text x="52" y="118" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" fill="#ffffff">See your</text>
+  <text x="52" y="174" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="800" fill="#ee5a65">Heart Pattern</text>
+  <path d="M0 ${H - 150} C 200 ${H - 200}, 480 ${H - 120}, 900 ${H - 170} L 900 ${H} L 0 ${H} Z" fill="#ee5a65"/>
+  <text x="450" y="${H - 68}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#ffffff">Camera PPG · No wearable needed</text>
 </svg>`;
 
-const backLeft = -40;
-const backTop = 310;
-const frontLeft = Math.round((W - phoneW) / 2) + 8;
-const frontTop = 195;
+const frontLeft = Math.round((W - frameW) / 2) + 10;
+const frontTop = 220;
+const peekLeft = -18;
+const peekTop = 380;
 
-await sharp(Buffer.from(overlaySvg))
+await sharp(Buffer.from(bgSvg))
   .composite([
-    { input: mirroredBack, left: backLeft, top: backTop },
+    { input: leftPeek, left: peekLeft, top: peekTop },
     { input: frontPhone, left: frontLeft, top: frontTop },
   ])
-  .jpeg({ quality: 88, mozjpeg: true })
+  .jpeg({ quality: 90, mozjpeg: true })
   .toFile(outJpg);
 
-console.log(
-  "wrote",
-  outJpg,
-  fs.statSync(outJpg).size,
-  "visibleBack",
-  visibleBackW,
-  "frontLeft",
+console.log("OK", outJpg, fs.statSync(outJpg).size, {
   frontLeft,
-);
+  peekW: visibleW,
+});

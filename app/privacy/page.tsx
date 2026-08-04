@@ -31,7 +31,9 @@ export default function PrivacyPage() {
               <strong>Effective date</strong>
               <span>July 31, 2026</span>
               <strong style={{ marginTop: 26 }}>Contact</strong>
-              <span>privacy@cardiom.app</span>
+              <span>
+                <a href="mailto:policy@cardiom.app">policy@cardiom.app</a>
+              </span>
             </aside>
             <article className="legal-content">
               <div className="legal-note">

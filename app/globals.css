@@ -2374,6 +2374,35 @@ img {
   padding-left: 22px;
 }
 
+.legal-content h3 {
+  margin: 30px 0 10px;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.legal-content li {
+  margin-bottom: 10px;
+}
+
+.legal-content strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.legal-content a,
+.legal-aside a {
+  color: var(--blue-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.legal-content a:hover,
+.legal-aside a:hover {
+  color: var(--green);
+}
+
 .legal-note,
 .article-note {
   padding: 24px;

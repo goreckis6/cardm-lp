@@ -69,7 +69,7 @@ export function EarlyAccessForm() {
       {status === "error" ? (
         <p className="signup-error" id={`${inputId}-error`} role="alert">
           That did not go through. Check the address or email{" "}
-          <a href="mailto:hello@cardiom.app">hello@cardiom.app</a>.
+          <a href="mailto:support@cardiom.app">support@cardiom.app</a>.
         </p>
       ) : null}
     </form>

@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
   const protocol = requestHeaders.get("x-forwarded-proto") ?? "https";
-  const origin = host ? `${protocol}://${host}` : "https://cardiom.health";
+  const origin = host ? `${protocol}://${host}` : "https://cardiom.app";
   const socialImage = new URL("/og.png", origin).toString();
 
   return {
